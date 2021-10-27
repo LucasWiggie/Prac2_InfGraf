@@ -20,7 +20,7 @@ void mouseFunc(int button, int state, int x, int y);
 int main(int argc, char** argv)
 {
 	std::locale::global(std::locale("spanish"));// acentos ;)
-	if (!IGlib::init("../shaders_P2/shader.v1.vert", "../shaders_P2/shader.v1.frag"))
+	if (!IGlib::init("../shaders_P2/shader.v3.vert", "../shaders_P2/shader.v3.frag"))
 		return -1;
 
 	//CBs
@@ -55,6 +55,9 @@ int main(int argc, char** argv)
 
 	glm::mat4 modelMat = glm::mat4(1.0f);
 	IGlib::setModelMat(objId, modelMat);
+	IGlib::addColorTex(objId, "../img/color2.png");
+	IGlib::addEmissiveTex(objId, "../img/emissive.png");
+	IGlib::addSpecularTex(objId, "../img/specMap.png");
 
 	//CBs
 	IGlib::setIdleCB(idleFunc);
@@ -77,7 +80,7 @@ void idleFunc()
 {
 	glm::mat4 modelMat(1.0f);
 	static float angle = 0.0f;
-	angle = (angle > 3.141592f * 2.0f) ? 0 : angle + 0.01f;
+	angle = (angle > 3.141592f * 2.0f) ? 0 : angle + 0.0001f;
 
 	modelMat = glm::rotate(modelMat, angle, glm::vec3(1.0f, 1.0f, 0.0f));
 

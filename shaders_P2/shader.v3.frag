@@ -3,16 +3,21 @@
 out vec4 outColor;
 
 // Todo lo que nos pasa el shader de vertices
-in vec3 color;
+in vec2 texCoord;
 in vec3 pos;
 in vec3 norm;
 
-// Propiedades del objeto (a = ambioente, d = difusa, s = especular (necesitamos el angulo de vista de la camara))
+uniform sampler2D colorTex;
+uniform sampler2D emiTex;
+uniform sampler2D specularTex;
+
+// Propiedades del objeto (a = ambiente, d = difusa, s = especular, e = emisiva (necesitamos el angulo de vista de la camara))
 vec3 Ka;
 vec3 Kd;
-vec3 Ks = vec3(1.0);
+vec3 Ks;
+vec3 Ke;
 vec3 N;
-float alpha = 10.0;
+float alpha = 1.0;
 
 // Propiedades de la Luz (a = ambiente, d = difusa, s = especular (necesitamos el angulo de vista de la camara))
 vec3 Ia = vec3(0.2);
@@ -24,9 +29,12 @@ vec3 shade();
 
 void main()
 {
-	Ka = color;
-	Kd = color;
+	Ka = texture(colorTex, texCoord).rgb;
+	Kd = texture(colorTex, texCoord).rgb;
+	Ks = texture(specularTex, texCoord).rgb;
+	Ke = texture(emiTex, texCoord).rgb;
 	N = normalize(norm);
+
 	outColor = vec4(shade(), 1.0);   
 }
 
@@ -53,6 +61,9 @@ vec3 shade() {
 	float factor = clamp(dot(R,V), 0.0, 1.0);
 	vec3 specular = Is*Ks*pow(factor, alpha); //pow(a, b) = a^b
 	c += clamp(specular, 0.0, 1.0);
+
+	//// COMPONENTE EMISIVA
+	c += Ke;
 
 	return c;
 }
