@@ -25,7 +25,6 @@ uniform mat4 modelViewProj;
 uniform mat4 normal;
 uniform mat4 modelView;
 
-
 out vec3 color;
 
 vec3 shade();
