@@ -20,12 +20,10 @@ vec3 N;
 float alpha = 1.0;
 
 // Propiedades de la Luz (a = ambiente, d = difusa, s = especular (necesitamos el angulo de vista de la camara))
-// Fuente de luz 1
-vec3 Ia1 = vec3(0.5);
-vec3 Id1 = vec3(0.5, 0.0, 0.5);
-vec3 Is1 = vec3(0.8, 0.0, 0.0);
-vec3 lpos1 = vec3(10.0, -10.0, 0.0);
-
+vec3 Ia = vec3(0.5);
+vec3 Id = vec3(0.5);
+vec3 Is = vec3(0.8);
+vec3 lpos = vec3(10.0, -10.0, 0.0);
 
 
 vec3 shade();
@@ -78,14 +76,11 @@ float funcionAtenuacion(vec3 posL){
 }
 
 vec3 shade() {
-	// c va a actuar de sumatorio para todas las componentes
+
 	vec3 c = vec3(0.0);
 
-	// FUENTE DE LUZ 1:
-	c += calcAmbiental(Ia1);
-	c += funcionAtenuacion(lpos1)*(clamp(calcDifusa(Id1, lpos1), 0.0, 1.0) + clamp(calcEspecular(Is1, lpos1), 0.0, 1.0));
-		
-	// COMPONENTE EMISIVA
+	c += calcAmbiental(Ia);
+	c += funcionAtenuacion(lpos)*(clamp(calcDifusa(Id, lpos), 0.0, 1.0) + clamp(calcEspecular(Is, lpos), 0.0, 1.0));
 	c += Ke;
 
 	return c;
